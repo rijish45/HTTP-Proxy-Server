@@ -29,6 +29,7 @@ public:
   string server;
   string http_method;
   string http_type;
+  bool bad_request;
 
   int server_port_num;
   int total_length;
@@ -50,6 +51,7 @@ public:
     this->content_length = 0;
     this->total_length = 0;
     request_buffer.resize(MAX_BUFFER);
+    bad_request = false;
   };
   ~HTTPrequest(){};
 };
@@ -74,14 +76,14 @@ int HTTPrequest::build_fv_map(void) {
       // cout << fv_map[i.substr(0, pos)] << temp << endl;
     }
   }
-  //cout << request << endl;
+  // cout << request << endl;
   return 1;
 }
 
 string HTTPrequest::get_field_value(string field) {
   if (fv_map.find(field) == fv_map.end()) {
     string fail;
-    //cout << "FAIL" << endl;
+    // cout << "FAIL" << endl;
     return fail;
   }
   return fv_map[field];
@@ -160,6 +162,7 @@ int HTTPrequest::set_fields() {
     this->request_line = request;
   } else {
     cerr << "Request format is incorrect." << endl;
+    this->bad_request = true;
     return -1;
   }
 
@@ -171,12 +174,14 @@ int HTTPrequest::set_fields() {
     this->http_method = method;
   } else {
     cerr << "Request format is incorrect." << endl;
+    this->bad_request = true;
     return -1;
   }
 
   if (this->http_method != "GET" && this->http_method != "POST" &&
       this->http_method != "CONNECT") {
     cerr << "Method is not supported." << endl;
+    this->bad_request = true;
     return -1;
   }
   // Set the port numbers
@@ -193,12 +198,14 @@ int HTTPrequest::set_fields() {
     this->http_type = request.substr(position_two + 1);
   } else {
     cerr << "Request format is incorrect." << endl;
+    this->bad_request = true;
     return -1;
   }
 
   if ((this->http_type.compare("HTTP/1.0") != 0) &&
       (this->http_type.compare("HTTP/1.1") != 0)) {
     cerr << "HTTP type is incorrect." << endl;
+    this->bad_request = true;
     return -1;
   }
 

@@ -4,8 +4,7 @@ services:
   
   web:
       build: ./server
-      user: nobody
-      command: bash -c "make && ./proxy_daemon"
+      command: bash -c "make && ./start"
       volumes:
         - ./logs:/var/log/erss
       expose:

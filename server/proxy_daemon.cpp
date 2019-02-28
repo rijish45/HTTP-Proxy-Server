@@ -6,18 +6,19 @@
 
 #define HTTP_PORT "12345"
 #define LISTEN_BACKLOG 1000
+
 #include <cstdio>
 #include <cstdlib>
+
 #include <iostream>
-#include <assert.h>
 #include <vector>
+
 #include "HTTPrequest.h"
 #include "HTTPresponse.h"
 #include "cache.h"
 #include "proxy_daemon.h"
+
 #include <errno.h>
-#include <fstream>
-#include <sstream>
 #include <fcntl.h>
 #include <fstream>
 #include <netdb.h>
@@ -39,7 +40,8 @@ __thread size_t myID = 0;
 
 static pthread_mutex_t id_lock;
 static pthread_mutex_t cache_lock;
-ofstream outfile ("/var/log/erss/proxy.log");
+
+ofstream outfile;
 
 
 bool no_cache(HTTPrequest request_obj) {
@@ -74,10 +76,14 @@ string getfromCC(string cc, string field) {
 }
 
 bool is_fresh(HTTPrequest request_obj) {
+  //
   string cc = request_obj.get_field_value("CACHE-CONTROL"); // max_age
+
+  //  time_t
   time_t req_time = s_cache.time_cache[request_obj.request_line];
   string max_age_str = getfromCC(cc, "MAX_AGE=");
   size_t max_age = str_to_num(max_age_str.c_str());
+
   if (difftime(time(NULL), req_time) < max_age) {
     return true;
   }
@@ -88,6 +94,7 @@ bool is_fresh(HTTPrequest request_obj) {
 }
 
 bool has_validate_tags(HTTPrequest request_obj) {
+
   string cc = request_obj.get_field_value("CACHE-CONTROL");
   if ((cc.find("NO-CACHE") != std::string::npos) ||
       (cc.find("MUST-REVALIDATE") != std::string::npos)) {
@@ -101,6 +108,7 @@ HTTPresponse forward(HTTPrequest request_obj) {
   string port = "80"; // check HTTPrequest obj
   int server_fd = forward_request(request_obj.server.c_str(), port.c_str(),
                                   request_obj.request_buffer.data());
+
   return receive_response(server_fd);
 }
 
@@ -112,13 +120,17 @@ HTTPresponse validate(HTTPrequest request_obj) {
   // last modified
   string last_modified =
       s_cache.response_cache[request_line].get_field_value("LAST-MODIFIED");
+
   string req = build_validation_req(request_line, etag, last_modified);
   string port = "80"; // check HTTPrequest obj
   // make request to server
   int server_fd =
       forward_request(request_obj.server.c_str(), port.c_str(), req.c_str());
-
   HTTPresponse response_obj = receive_response(server_fd);
+
+  // 304 ok -- return from cache
+
+  // full response -- replace in cache
   cout << myID << ": in cache, valid" << endl;
   return s_cache.response_cache[request_line]; // todo: fix
 }
@@ -135,8 +147,6 @@ string build_validation_req(string request_line, string etag,
 
 HTTPresponse deal_with_cache(HTTPrequest request) {
 
-  outfile.open("/var/log/erss/proxy.log", ios::app);
-  assert(outfile.is_open());
   if (no_cache(request)) { // no_cache boolean
     return forward(request);
 
@@ -150,12 +160,7 @@ HTTPresponse deal_with_cache(HTTPrequest request) {
       outfile << myID << ": not in cache" << endl;
       cout << myID << ": not in cache" << endl;
 
-      // cout << "Cache\n" << endl;
-      // s_cache.print();
       HTTPresponse response = forward(request);
-      // if (no_cache(response)) {
-      //   return response;
-      // } else {
       pthread_mutex_lock(&cache_lock);
       s_cache.insert(request.request_line, resp, request, response);
       pthread_mutex_unlock(&cache_lock);
@@ -172,8 +177,6 @@ HTTPresponse deal_with_cache(HTTPrequest request) {
         return validate(request);
       } else {
 
-        // if we can check cache and its fresh and doesnt need validation send
-        // back response
         if (!has_validate_tags(request)) {
           outfile << myID << ": in cache, valid" << endl;
           cout << myID << ": in cache, valid" << endl;
@@ -216,6 +219,11 @@ HTTPrequest receive_request(int user_fd) {
   HTTPrequest request_obj;
   request_obj.request_buffer = request_header;
   request_obj.build_fv_map();
+  if (request_obj.set_fields() == -1) {
+    return request_obj;
+  }
+  // DELETE
+
   time_t now = time(0);
 
   outfile << myID << ": \"" << request_obj.request_line << "\" from "
@@ -282,11 +290,6 @@ HTTPresponse receive_response(int server_fd) {
   HTTPresponse response_object;
   response_object.response_buffer = response;
   response_object.build_fv_map();
-  // cout << resp_str << endl;
-  // cout << "CACHE CONTROL" << response_object.get_field_value("CACHE-CONTROL")
-  //     << endl;
-  // print_vec(response_object.response_buffer); // remove
-
   int content_len = response_object.get_content_length();
   if (content_len >= 0) {
     // cout << "len = " << content_len << endl;
@@ -305,12 +308,6 @@ HTTPresponse receive_response(int server_fd) {
     response_object.response_buffer.insert(
         response_object.response_buffer.end(), msg_body2.begin(),
         msg_body2.end());
-    // cout << "printing msg with body" << endl;
-    // print_vec(response_object.response_buffer);
-    // cout << "Successful Receive" << endl;
-    // error checking
-    // print_vec(response);
-    // cout << response << endl;
   }
   return response_object;
 }
@@ -378,10 +375,6 @@ void *process_request(void *uid) {
   pthread_mutex_unlock(&id_lock);
 
   cout << "Request ID:" << myID << endl;
-
-  // cout << "new connection" << endl;
-
-  // cout << "incoming" << endl;
   while (1) {
     HTTPrequest request_obj = receive_request(user_fd);
 

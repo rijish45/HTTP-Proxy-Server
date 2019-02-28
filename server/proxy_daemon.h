@@ -8,11 +8,9 @@
 
 #ifndef __PROXY_H_
 #define __PROXY_H_
-
 #include "HTTPrequest.h"
 #include "HTTPresponse.h"
 #include "cache.h"
-
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -28,18 +26,13 @@
 
 bool no_cache(HTTPrequest request_obj);
 bool no_cache(HTTPresponse request_obj);
-
 bool is_fresh(HTTPrequest request_obj);
 
 HTTPresponse forward(HTTPrequest request_obj);
-
 HTTPresponse validate(HTTPrequest request_obj);
-
 string build_validation_req(string request_line, string etag,
                             string last_modified);
-
 HTTPresponse deal_with_cache(HTTPrequest request);
-
 int forward_request(const char *hostname, const char *port,
                     const char *request);
 HTTPresponse receive_response(int server_fd);

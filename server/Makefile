@@ -16,4 +16,4 @@ clean:
 	rm -rf *~ $(TARGETS) *.dSYM
 
 clobber:
-	rm -rf *~ *.dSYM
+	rm -f *~

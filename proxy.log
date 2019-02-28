@@ -1,0 +1,73 @@
+0: "CONNECT play.google.com:443 HTTP/1.1" from play.google.com @ Thu Feb 28 15:20:44 2019
+
+1: "CONNECT tiles.services.mozilla.com:443 HTTP/1.1" from tiles.services.mozilla.com @ Thu Feb 28 15:20:45 2019
+
+2: "CONNECT tiles.services.mozilla.com:443 HTTP/1.1" from tiles.services.mozilla.com @ Thu Feb 28 15:20:45 2019
+
+3: "CONNECT safebrowsing.googleapis.com:443 HTTP/1.1" from safebrowsing.googleapis.com @ Thu Feb 28 15:20:45 2019
+
+4: "CONNECT www.google.com:443 HTTP/1.1" from www.google.com @ Thu Feb 28 15:20:46 2019
+
+5: "CONNECT assets-cdn.github.com:443 HTTP/1.1" from assets-cdn.github.com @ Thu Feb 28 15:20:46 2019
+
+6: "CONNECT www.google.com:443 HTTP/1.1" from www.google.com @ Thu Feb 28 15:20:46 2019
+
+7: "CONNECT lh3.googleusercontent.com:443 HTTP/1.1" from lh3.googleusercontent.com @ Thu Feb 28 15:20:47 2019
+
+8: "CONNECT lh3.googleusercontent.com:443 HTTP/1.1" from lh3.googleusercontent.com @ Thu Feb 28 15:20:47 2019
+
+9: "CONNECT d3cv4a9a9wh0bt.cloudfront.net:443 HTTP/1.1" from d3cv4a9a9wh0bt.cloudfront.net @ Thu Feb 28 15:20:47 2019
+
+11: "CONNECT encrypted-tbn0.gstatic.com:443 HTTP/1.1" from encrypted-tbn0.gstatic.com @ Thu Feb 28 15:20:47 2019
+
+18: "CONNECT ogs.google.com:443 HTTP/1.1" from ogs.google.com @ Thu Feb 28 15:20:48 2019
+
+21: "CONNECT id.google.com:443 HTTP/1.1" from id.google.com @ Thu Feb 28 15:20:52 2019
+
+24: "GET http://www.cplusplus.com/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:20:54 2019
+
+24: not in cache
+25: "CONNECT play.google.com:443 HTTP/1.1" from play.google.com @ Thu Feb 28 15:20:55 2019
+
+24: "GET http://www.cplusplus.com/v321/main.css HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:20:56 2019
+
+24: not in cache
+26: "GET http://www.googletagservices.com/tag/js/gpt.js HTTP/1.1" from www.googletagservices.com @ Thu Feb 28 15:20:56 2019
+
+26: not in cache
+27: "CONNECT securepubads.g.doubleclick.net:443 HTTP/1.1" from securepubads.g.doubleclick.net @ Thu Feb 28 15:20:56 2019
+
+26: "GET http://www.cplusplus.com/v321/bgv.png HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:20:56 2019
+
+26: not in cache
+28: "CONNECT www.google-analytics.com:443 HTTP/1.1" from www.google-analytics.com @ Thu Feb 28 15:20:56 2019
+
+29: "CONNECT stats.g.doubleclick.net:443 HTTP/1.1" from stats.g.doubleclick.net @ Thu Feb 28 15:20:56 2019
+
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:00 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:01 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:03 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:05 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:06 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:08 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:10 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:11 2019
+
+30: not in cache
+30: "GET http://www.cplusplus.com/doc/tutorial/constants/ HTTP/1.1" from www.cplusplus.com @ Thu Feb 28 15:21:12 2019
+
+30: not in cache
