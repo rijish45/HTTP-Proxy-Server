@@ -6,7 +6,6 @@
 
 #ifndef _CACHE_H
 #define _CACHE_H
-
 #include "HTTPrequest.h"
 #include "HTTPresponse.h"
 #include <cstdio>
@@ -83,11 +82,7 @@ ssize_t Cache::insert(string key, vector<char> val, HTTPrequest request,
   this->my_cache[key] = val;
   request_cache[key] = request;
   time_cache[key] = time(NULL);
-
-  //  request_cache[key].fv_map["REQ_TIME"] = time(NULL); // time
-
   response_cache[key] = response;
-
   this->size++;
   this->MRU = key;
   return 0;
@@ -126,11 +121,6 @@ ssize_t Cache::evict(string key) {
 }
 
 vector<char> Cache::lookup(string key) {
-  // return error if Cache Miss
-  /* if (this->my_cache.find(key) == this->my_cache.end()) { */
-  /*   vector<char> fail; */
-  /*   return fail; // return ERROR */
-  /* } */
   return this->my_cache[key];
 }
 

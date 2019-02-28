@@ -6,7 +6,6 @@
 
 #ifndef _HTTPRESPONSE_H
 #define _HTTPRESPONSE_H
-
 #include <algorithm>
 #include <iostream>
 #include <stdio.h>
@@ -17,7 +16,6 @@
 #define MAX_BUFFER_SIZE 102400
 
 using namespace std;
-
 typedef std::unordered_map<std::string, std::string> stringmap;
 
 class HTTPresponse {
@@ -40,12 +38,12 @@ public:
   }
 
   ~HTTPresponse() {}
+  
   string get_etag();
   bool receive_header_set_parameters();
   bool server_response_validate();
   int get_content_length();
   int get_age();
-
   string get_date();
   string get_last_modified();
   string get_cache_control();
@@ -206,16 +204,6 @@ string HTTPresponse::get_last_modified() {
   return last;
 }
 
-/* bool HTTPresponse::is_valid_response() { */
-/*   string begin = "HTTP/1"; */
-/*   for (int i = 0; i < begin.length(); i++) { */
-/*     if (this->response_buffer[i] != begin.at(i)) { */
-/*       return false; */
-/*     } */
-/*   } */
-
-/*   return true; */
-/* } */
 
 bool HTTPresponse::check_transfer_encoding() {
   string response(this->response_buffer.data());
