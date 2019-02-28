@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  
+  web:
+      build: ./server
+      user: nobody
+      command: bash -c "make && ./proxy_daemon"
+      volumes:
+        - ./logs:/var/log/erss
+      expose:
+        - "12345"
+      ports:
+        - "12345:12345"
